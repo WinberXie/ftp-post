@@ -1,0 +1,14 @@
+{
+  "name": "ftp-post",
+  "version": "1.0.0",
+  "description": "post file to ftp",
+  "main": "index.js",
+  "scripts": {
+    "test": "start"
+  },
+  "author": "winber",
+  "license": "ISC",
+  "dependencies": {
+    "ftp": "^0.3.10"
+  }
+}
