@@ -2,35 +2,48 @@ var findFile = require('./lib/findFile');
 var sendFile = require('./lib/sendFile');
 var path = require('path');
 
-module.exports = function (sourth, config, divide) {
-    var result = findFile(sourth, divide); //获取要上传的单文件的集合
-    var prefix = path.resolve(sourth, '../'); // 要上传文件相对于操作系统的绝对路径
+module.exports = function (options) {
 
-    // 为 divide 设置默认值 
-    if(typeof divide != 'boolean') {
-        divide = false
-    }  
+    var _options = {
+        sourth: '',
+        config: {},
+        divide: false,
+        originPrefix: ''
+    };
+
+    for (var option in _options) {
+        if(options.hasOwnProperty(option)) {
+            _options[option] = options[option];
+        }
+    }
+
+    var sourth = _options.sourth,
+        config = _options.config,
+        divide = _options.divide,
+        originPrefix = _options.originPrefix,
+        prefix = path.resolve(sourth), // 要上传文件相对于操作系统的绝对路径
+        findConfig = {},
+        result;
+
+
+    for(var key in config) {
+        if(!findConfig[key]) {
+            findConfig[key] = config[key].suffix;
+        }
+    }
+
+    result = findFile(sourth, divide, findConfig); //获取要上传的单文件的集合
 
     if(divide) {
-        var mergeConfig = {
-            js: {
-               files: result.jsFile,
-               config: config.jsConfig
-            },
-            css: {
-                files: result.cssFile,
-                config: config.cssConfig
-            },
-            img: {
-                files: result.imgFile,
-                config: config.imgConfig
+        for (var item in config) {
+            var files = result[item];
+            if(files.length) {
+                sendFile(files, config[item].ftpConfig, prefix, originPrefix);
             }
-        };
-
-        for (var item in mergeConfig) {
-            sendFile(mergeConfig[item].files, mergeConfig[item].config, prefix);
         }     
     } else {
-        sendFile(result, config, prefix);
+        if(result.length) {
+            sendFile(result, config, prefix, originPrefix);
+        }
     }
 };

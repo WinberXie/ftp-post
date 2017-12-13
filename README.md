@@ -29,10 +29,13 @@ npm i ftp-post
 ```
 var ftpPost = require('ftp-post');
 
-ftpPost(sourthFolder, {
-    host: '主机名称',
-    user: '用户名',
-    password: '密码'
+ftpPost({
+    sourth: '/Users/winber/Desktop/calcu',
+    config : {
+        host: '主机名称',
+        user: '用户名',
+        password: '密码'
+    }
 })
 
 ```
@@ -42,32 +45,40 @@ ftpPost(sourthFolder, {
 var ftpPost = require('ftp-post');
 
 // 分开上传
-ftpPost(sourthFolder, {
-    jsConfig: {
-        host: '主机名称',
-        user: '用户名',
-        password: '密码'
+ftpPost({
+    sourth: '/Users/winber/Desktop/calcu',
+    config : {
+        config1: {
+            ftpConfig: {
+                host: '主机名称',
+                user: '用户名',
+                password: '密码'
+            },
+            suffix: '.js|.css'
+        },
+        
+        config2: {
+            ftpConfig: {
+                host: '主机名称',
+                user: '用户名',
+                password: '密码'
+            },
+            suffix: '.png|.jpg'
+        }
     },
-    cssConfig: {
-        host: '主机名称',
-        user: '用户名',
-        password: '密码'
-    },
-    imgConfig: {
-        host: '主机名称',
-        user: '用户名',
-        password: '密码'
-    }
-}, true)
+    divide: true,
+})
 ```
 
 ###  ftpPost配置参数
 
 | params | Type | Default | Description |
 | ---- |:----:|:-------:| :----------:|
-| **`sourthFolder`** | `String` | `undefined` | 所要上传的文件夹的绝对路径 |
-| **`config`** | `Object` | `undefined ` | cdn服务器相关的参数 |
-| **`divideFlag`** | `Boolean` | `false ` | 是否按照文件类型上传到不同的cdn服务器 |
+| **`sourth `** | `String` | `undefined` | 所要上传的文件夹的绝对路径 不能为空|
+| **`config`** | `Object` | `undefined ` | cdn服务器相关的参数 不能为空|
+| **`divide `** | `Boolean` | `false ` | 是否按照文件类型上传到不同的cdn服务器|
+| **`originPrefix `** | `String` | `''` | 远程目录的前缀 |
+
 
 
 ---
