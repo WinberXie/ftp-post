@@ -39,7 +39,59 @@ ftpPost({
 })
 
 ```
-- js css image 分开上传到不同的cdn服务器
+- 所有静态资源上传到cdn服务器的 /static 目录下
+
+```
+var ftpPost = require('ftp-post');
+
+ftpPost({
+    sourth: '/Users/winber/Desktop/calcu',
+    config : {
+        host: '主机名称',
+        user: '用户名',
+        password: '密码'
+    },
+    originPrefix: 'static'
+})
+
+```
+
+
+
+
+- 根据后缀名分类并分开上传到不同的cdn服务器
+
+```
+var ftpPost = require('ftp-post');
+
+// 分开上传
+ftpPost({
+    sourth: '/Users/winber/Desktop/calcu',
+    config : {
+        config1: {
+            ftpConfig: {
+                host: '主机名称',
+                user: '用户名',
+                password: '密码'
+            },
+            suffix: '.js|.css'
+        },
+        
+        config2: {
+            ftpConfig: {
+                host: '主机名称',
+                user: '用户名',
+                password: '密码'
+            },
+            suffix: '.png|.jpg'
+        }
+    },
+    divide: true
+})
+```
+
+
+- 根据后缀名分类并分开上传到不同的cdn服务器的 /static 目录下
 
 ```
 var ftpPost = require('ftp-post');
@@ -67,8 +119,10 @@ ftpPost({
         }
     },
     divide: true,
+    originPrefix: 'static'
 })
 ```
+
 
 ###  ftpPost配置参数
 
@@ -88,6 +142,8 @@ ftpPost({
 
 - 当使用根据文件类型上传的时候, config 需要配置相应的链接服务器需要的参数
 - 上传的目标文件夹为绝对路径
+- 当使用文件归类上传的时候需要配置 divide 参数为 true
+- 上传是将目标文件夹下面的所有文件上传到cdn服务器并不包含目标文件夹这一级目录
 
 ---
 

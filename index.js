@@ -3,7 +3,7 @@ var sendFile = require('./lib/sendFile');
 var path = require('path');
 
 module.exports = function (options) {
-
+    // 默认配置项
     var _options = {
         sourth: '',
         config: {},
@@ -11,6 +11,7 @@ module.exports = function (options) {
         originPrefix: ''
     };
 
+    // options 配置优先级高
     for (var option in _options) {
         if(options.hasOwnProperty(option)) {
             _options[option] = options[option];
@@ -24,7 +25,6 @@ module.exports = function (options) {
         prefix = path.resolve(sourth), // 要上传文件相对于操作系统的绝对路径
         findConfig = {},
         result;
-
 
     for(var key in config) {
         if(!findConfig[key]) {
